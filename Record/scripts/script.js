@@ -6,9 +6,10 @@ const recTimems = 10000;
 
 const numFrames=Math.ceil(recTimems/intervaloms);
 
-var interval=Time.setInterval(f,intervaloms);
 var frame=0;
-var recording=[];
+var recording=new Array(numFrames);
+f();
+var interval=Time.setInterval(f,intervaloms);
 
 function f() {
 	var posx=Patches.getScalarValue("posx").pinLastValue();
@@ -19,9 +20,9 @@ function f() {
 	var roty=Patches.getScalarValue("roty").pinLastValue();
 	var rotz=Patches.getScalarValue("rotz").pinLastValue();
 	
-	recording.push({"posx":posx,"posy":posy,"posz":posz,"rotx":rotx,"roty":roty,"rotz":rotz});
+	recording[frame++]={"posx":posx,"posy":posy,"posz":posz,"rotx":rotx,"roty":roty,"rotz":rotz};
 	
-	if (++frame>numFrames) {
+	if (frame==numFrames) {
 		Time.clearInterval(interval);
 		Diagnostics.log("Finalizado. var Recording=");
 		Diagnostics.log(recording);
