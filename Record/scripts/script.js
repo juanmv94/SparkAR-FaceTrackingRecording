@@ -8,7 +8,6 @@ const numFrames=Math.ceil(recTimems/intervaloms);
 
 var frame=0;
 var recording=new Array(numFrames);
-f();
 var interval=Time.setInterval(f,intervaloms);
 
 function f() {
