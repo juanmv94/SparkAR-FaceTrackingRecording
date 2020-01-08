@@ -1,14 +1,15 @@
+//FaceTrackingRecording by @Juanmv94
 const Diagnostics = require('Diagnostics');
 const Patches = require('Patches');
 const Time = require('Time');
-const intervaloms = 100;
+const intervalms = 100;
 const recTimems = 10000;
 
-const numFrames=Math.ceil(recTimems/intervaloms);
+const numFrames=Math.ceil(recTimems/intervalms);
 
 var frame=0;
 var recording=new Array(numFrames);
-var interval=Time.setInterval(f,intervaloms);
+var interval=Time.setInterval(f,intervalms);
 
 function f() {
 	var posx=Patches.getScalarValue("posx").pinLastValue();
@@ -23,7 +24,7 @@ function f() {
 	
 	if (frame==numFrames) {
 		Time.clearInterval(interval);
-		Diagnostics.log("Finalizado. var Recording=");
+		Diagnostics.log("Recording completed! var Recording=");
 		Diagnostics.log(recording);
 	}
 }
