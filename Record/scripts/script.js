@@ -2,14 +2,25 @@
 const Diagnostics = require('Diagnostics');
 const Patches = require('Patches');
 const Time = require('Time');
-const intervalms = 100;
-const recTimems = 10000;
+const R = require('Reactive');
 
-const numFrames=Math.ceil(recTimems/intervalms);
+const frameRate = 1;
+const numFrames = 34;
+const intervalms = 1000/frameRate;
 
 var frame=0;
 var recording=new Array(numFrames);
-var interval=Time.setInterval(f,intervalms);
+var waiting=true;
+var interval=null;
+Patches.setBooleanValue("waiting",true);
+
+Patches.getPulseValue("start").subscribe(function() {
+	if (waiting) {
+		waiting=false;
+		interval=Time.setInterval(f,intervalms);
+		f();
+	}
+});
 
 function f() {
 	var posx=Patches.getScalarValue("posx").pinLastValue();
@@ -21,7 +32,7 @@ function f() {
 	var rotz=Patches.getScalarValue("rotz").pinLastValue();
 	
 	recording[frame++]={"posx":posx,"posy":posy,"posz":posz,"rotx":rotx,"roty":roty,"rotz":rotz};
-	
+	Patches.setPulseValue("frame",R.once());
 	if (frame==numFrames) {
 		Time.clearInterval(interval);
 		Diagnostics.log("Recording completed! var Recording=");

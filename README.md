@@ -3,54 +3,55 @@
 An Spark AR utility to record facetracking from a video/GIF, and then play it with the user face.
 
 ## The project
-This utility is splited in 3 projects: 1 for recording, and 2 for playing the facetracking recording.
+This project allows you to record the facetracker movements from the simulator in SparkAR.
+This utility is splited in 2 projects: 1 for recording and 1 for playing the facetracking recording.
+You just have to follow these steps:
 
-### Record
-This project allows you to record the facetracker movements from the simulator in SparkAR. You just have to follow these steps:
-#### 1. Open the project
-The project is made with SparkAR 73.0.0 so any version after will open it
-#### 2. change the real-time simulation video
+#### 1. Generate the frame JPGs and WEBM
+As you can imagine, you can't use MP4 or GIF in your project, so you need to convert your video/GIF to JPG frames (JPGs are smaller than PNGs).
+You need to use [FFMPEG](https://www.ffmpeg.org/ "FFMPEG") for this, so download it first if you still don't have it.
+For generating JPGs in your working directory use:
+>ffmpeg -i input.mp4 -r 15 %04d.jpg
+
+Where *-r 15* means your desired framerate. If you don't want to change the framerate omit this parameter.
+Keep in mind that your video must be in vertical ratio, so edit it if isn't. You can add the *vf=crop...* filter from FFMPEG for this.
+
+Then you need to generate a webm file at 1fps (recomended) with frame counter for the recording project. Use:
+>ffmpeg -r 1 -i %04d.jpg -vf "drawtext=text='%{frame_num}':start_number=1:x=(w-tw)/2:y=(h-th)/2:fontsize=80:fontcolor=0xFFFFFFCC" camera.webm
+
+for generating this file with translucid white frame counter on the center of the screen.
+
+
+#### 2. Open the record project
+The project is made with SparkAR 73.0.0 so any version after will open it.
 Click the left camera icon and then the + button to use your desired **\*.webm** video.
-You should first convert your video or GIF to WEBM format using online converters, or any program for video conversion like **FFMPEG**.
-If you want to use this one, the command would be something like:
-> ffmpeg -i input.gif output.webm
-	
-#### 3. Edit the script time constants
-You should edit these 2 constants in **scripts/script.js**
+You also need to edit the constants in **scripts/script.js**
 
 ```javascript
-const intervalms = 100;
-const recTimems = 10000;
+const frameRate = 1;
+const numFrames = 34;
+const intervalms = 1000/frameRate;
 ```
+change the constant **numFrames** to the number of frames you have generated.
 
-* **intervalms** sets the interval in milliseconds to record face positions of the facetracker. If you for example want 10 frames per second, it will be 1000/10 = 100
-* **recTimems** the number of milliseconds to record from beginning of the simulation. If you want for example 10 seconds, it will be 10\*1000 = 10000
+Once you are ready it's time for recording! Remember some facts about SparkAR:
+* When you first load a project, sometimes there's some delay until script starts.
+* When you click the reload button, scripts and patches reload at the moment but there's a small delay until the camera simulator reloads.
 
-### 4. Clear the console and restart the simulation
-Every time you change the parameters in the **script.js** you should clear the console to remove previous recording logs from it, and restart the simulation.
-After the specified time, a console log will show an array of face positions like:
+So, when the script is loaded, an instruction telling you to tap the screen will show. Then you must enable "Simulate touch" at the emulator, and reload the project.
+As soon as the first frame (with number 1) appear, you must touch the screen at simulator. That can be in 0.5-1.5 seconds so be quick! if you are late and touch the screen at 2 frame, you should reload and try again. A flash efect will tell you the moment facetracker positions are beeing recorded.
+After the video is finished (no more flashes), a console log will show an array of face positions like:
 
 ```javascript
 [{"posx":-0.007241778075695038,"posy":-0.03252420201897621,"posz":-0.5028273463249207,"rotx":-8.999058723449707,"roty":4.387806415557861,"rotz":2.962066173553467},{"posx":-0.007218386046588421,"posy":-0.02704869583249092,"posz":-0.5050930380821228,"rotx":-11.640742301940918,"roty":5.620565414428711,"rotz":5.489805221557617},...]
 ```
 
 You should copy this **full** array for the **Play** script.
-If after playing you don't like the recorded timings, go back to step 3.
 
-## Play
-There are two versions of the play project:
-* In **playByFrame** you set the facetracking recording frame you want to show with patches. You should use this one if you want a good synchronization between the facetracking recording and the animation.
-
-* In **play** you just have to set the interval at **scripts/script.js** and facetracking animation will play automatically.
-```javascript
-const intervalms = 100;
-const autoloop = false;	//true to loop automatically without need of the reset signal
-```
-You have a reset signal with the patches to restart animation from beginning, but there's also an autoloop functionality that can be enabled by setting *const autoloop = true;*  in the script but it's **not recomended** as the video and facetracking can desync very easily with time.
-> Note: it's possible that playback of the video and facetracking recording are not synced after video conversions. If you feel that your facetracking recording is going very fast and ends before the video, add some intervalms for example from 100 to 105, or decrease it if it's going very slow, and keep trying until it's synced.
-
-## Setting your recorded facetracking recording
-Don't forget to replace the dummy recording from **script.js** with yours. It must be placed in the value of **const recording**.
+#### 3. Open the play project
+* Open the project and replace the dummy Texture Secuence *00[1-34]* with yours (Delete it and import from computer all your JPGs. When imported, change the type at the right menu to "Texture Secuence". Add this new texture sequence to *animationSequence0*). **Remember to disable compression!**
+* Change the **nº frames** and **fps** value patches with your desired values.
+* Finally, you should replace the dummy recording from **scripts/script.js** in this project with yours. It must be placed in the value of **const recording**.
 ```javascript
 //Insert your recording here!
 const recording=[{"posx":-0.007241778075695038,"posy":-0.03252420201897621,"posz":-0.5028273463249207,"rotx":-8.999058723449707,"roty":4.387806415557861,"rotz":2.962066173553467},{"posx":-0.007218386046588421,"posy":-0.02704869583249092,"posz":-0.5050930380821228,"rotx":-11.640742301940918,"roty":5.620565414428711,"rotz":5.489805221557617},...];
