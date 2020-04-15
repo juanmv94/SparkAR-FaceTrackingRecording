@@ -17,13 +17,13 @@ Where *-r 15* means your desired framerate. If you don't want to change the fram
 Keep in mind that your video must be in vertical ratio, so edit it if isn't. You can add the *vf=crop...* filter from FFMPEG for this.
 
 Then you need to generate a webm file at 1fps (recomended) with frame counter for the recording project. Use:
->ffmpeg -r 1 -i %04d.jpg -vf "drawtext=text='%{frame_num}':start_number=1:x=(w-tw)/2:y=(h-th)/2:fontsize=80:fontcolor=0xFFFFFFCC" camera.webm
+>ffmpeg -r 1 -i %04d.jpg -vf "drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC" camera.webm
 
 for generating this file with translucid white frame counter on the center of the screen.
 
 
 #### 2. Open the record project
-The project is made with SparkAR 73.0.0 so any version after will open it.
+The project is made with SparkAR 86.0.0 so any version after will open it.
 Click the left camera icon and then the + button to use your desired **\*.webm** video.
 You also need to edit the constants in **scripts/script.js**
 
@@ -59,3 +59,6 @@ const recording=[{"posx":-0.007241778075695038,"posy":-0.03252420201897621,"posz
 
 ## Make your filter!
 Once the **play** project is working ok for you, you can rename the project and keep adding it things so you can make your own filter ;)
+
+## Before you publish your filter
+Keep in mind that you are not allowed to publish filters to SparkAR Hub with recognizable human faces (Although they are covered with your face, they will continue to exist in the textures) and if you try, your filter will be rejected. Before uploading your filter you must modify the animation frames blurring or covering the original face in the video or frame by frame using Photoshop/GIMP/MsPaint (No, please, don't use the last one).

@@ -12,27 +12,34 @@ var frame=0;
 var recording=new Array(numFrames);
 var waiting=true;
 var interval=null;
-Patches.setBooleanValue("waiting",true);
 
-Patches.getPulseValue("start").subscribe(function() {
-	if (waiting) {
-		waiting=false;
-		interval=Time.setInterval(f,intervalms);
-		f();
-	}
+var head;
+
+Promise.all([Patches.outputs.getVector("pos"),Patches.outputs.getVector("rot")]).then(function(h){
+	head=h;
+	Patches.outputs.getPulse("start").then(function(pv){
+		pv.subscribe(function() {
+			if (waiting) {
+				waiting=false;
+				interval=Time.setInterval(f,intervalms);
+				f();
+			}
+		});
+		Patches.inputs.setBoolean("waiting",true);
+	});
 });
 
 function f() {
-	var posx=Patches.getScalarValue("posx").pinLastValue();
-	var posy=Patches.getScalarValue("posy").pinLastValue();
-	var posz=Patches.getScalarValue("posz").pinLastValue();
+	var posx=head[0].x.pinLastValue();
+	var posy=head[0].y.pinLastValue();
+	var posz=head[0].z.pinLastValue();
 	
-	var rotx=Patches.getScalarValue("rotx").pinLastValue();
-	var roty=Patches.getScalarValue("roty").pinLastValue();
-	var rotz=Patches.getScalarValue("rotz").pinLastValue();
+	var rotx=head[1].x.pinLastValue();
+	var roty=head[1].y.pinLastValue();
+	var rotz=head[1].z.pinLastValue();
 	
 	recording[frame++]={"posx":posx,"posy":posy,"posz":posz,"rotx":rotx,"roty":roty,"rotz":rotz};
-	Patches.setPulseValue("frame",R.once());
+	Patches.inputs.setPulse("frame",R.once());
 	if (frame==numFrames) {
 		Time.clearInterval(interval);
 		Diagnostics.log("Recording completed! var Recording=");
