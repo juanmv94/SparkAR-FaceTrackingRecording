@@ -21,6 +21,7 @@ Promise.all([Patches.outputs.getVector("pos"),Patches.outputs.getVector("rot")])
 		pv.subscribe(function() {
 			if (waiting) {
 				waiting=false;
+				Patches.inputs.setBoolean("waiting",false);
 				interval=Time.setInterval(f,intervalms);
 				f();
 			}
@@ -44,6 +45,8 @@ function f() {
 		Time.clearInterval(interval);
 		Diagnostics.log("Recording completed! var Recording=");
 		Diagnostics.log(recording);
+		Patches.inputs.setBoolean("waiting",true);
+		waiting=true;
 	}
 }
 
