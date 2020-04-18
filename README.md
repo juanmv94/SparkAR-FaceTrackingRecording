@@ -50,12 +50,13 @@ You should copy this **full** array for the **Play** script.
 
 #### 3. Open the play project
 * Open the project and replace the dummy Texture Secuence *00[1-34]* with yours (Delete it and import from computer all your JPGs. When imported, change the type at the right menu to "Texture Secuence". Add this new texture sequence to *animationSequence0*). **Remember to disable compression!**
-* Change the **nº frames** and **fps** value patches with your desired values.
+* Change the **n frames** and **fps** value patches with your desired values.
 * Finally, you should replace the dummy recording from **scripts/script.js** in this project with yours. It must be placed in the value of **const recording**.
 ```javascript
 //Insert your recording here!
 const recording=[{"posx":-0.007241778075695038,"posy":-0.03252420201897621,"posz":-0.5028273463249207,"rotx":-8.999058723449707,"roty":4.387806415557861,"rotz":2.962066173553467},{"posx":-0.007218386046588421,"posy":-0.02704869583249092,"posz":-0.5050930380821228,"rotx":-11.640742301940918,"roty":5.620565414428711,"rotz":5.489805221557617},...];
 ```
+* You can also tune other parameters like the ambient/directional light intensity, skin smoothing (Material 2), face cut dimensions (SDF Ellipse), and face brightness/rgb dominant color (Pack4 first 3 values).
 
 ## Make your filter!
 Once the **play** project is working ok for you, you can rename the project and keep adding it things so you can make your own filter ;)
