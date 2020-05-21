@@ -17,7 +17,7 @@ Where *-r 15* means your desired framerate. If you don't want to change the fram
 Keep in mind that your video must be in vertical ratio, so edit it if isn't. You can add the *vf=crop...* filter from FFMPEG for this.
 
 Then you need to generate a webm file at 1fps (recomended) with frame counter for the recording project. Use:
->ffmpeg -r 1 -i %04d.jpg -vf "drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC" camera.webm
+>ffmpeg -r 1 -i %04d.jpg -vf "drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC" -intra camera.webm
 
 for generating this file with translucid white frame counter on the center of the screen.
 
@@ -50,7 +50,7 @@ You should copy this **full** array for the **Play** script.
 
 #### 3. Open the play project
 * Open the project and replace the dummy Texture Secuence *00[1-34]* with yours (Delete it and import from computer all your JPGs. When imported, change the type at the right menu to "Texture Secuence". Add this new texture sequence to *animationSequence0*). **Remember to disable compression!**
-* Change the **n frames** and **fps** value patches with your desired values.
+* Change the **frameRate** and **numFrames** Script constants with your desired values.
 * Finally, you should replace the dummy recording from **scripts/script.js** in this project with yours. It must be placed in the value of **const recording**.
 ```javascript
 //Insert your recording here!
