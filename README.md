@@ -2,6 +2,10 @@
 
 An Spark AR utility to record facetracking from a video/GIF, and then play it with the user face.
 
+* **Free to use only for personal ig accounts**
+* **Selling filters with FaceTrackingRecording is not allowed!**
+* **Contact @Juanmv94 for help or bussiness use**
+
 ## The project
 This project allows you to record the facetracker movements from the simulator in SparkAR.
 This utility is splited in 2 projects: 1 for recording and 1 for playing the facetracking recording.
@@ -50,7 +54,7 @@ You should copy this **full** array for the **Play** script.
 
 #### 3. Open the play project
 * Open the project and replace the dummy Texture Secuence *00[1-34]* with yours (Delete it and import from computer all your JPGs. When imported, change the type at the right menu to "Texture Secuence". Add this new texture sequence to *animationSequence0*). **Remember to disable compression!**
-* Change the **frameRate** and **numFrames** Script constants with your desired values.
+* Change the **frameRate** script.js constant with your desired value for playback frame rate.
 * Finally, you should replace the dummy recording from **scripts/script.js** in this project with yours. It must be placed in the value of **const recording**.
 ```javascript
 //Insert your recording here!
