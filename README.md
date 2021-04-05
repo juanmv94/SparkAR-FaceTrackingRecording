@@ -55,6 +55,7 @@ You should copy this **full** array for the **Play** script.
 #### 3. Open the play project
 * Open the project and replace the dummy Texture Secuence *00[1-34]* with yours (Delete it and import from computer all your JPGs. When imported, change the type at the right menu to "Texture Secuence". Add this new texture sequence to *animationSequence0*). **Remember to disable compression!**
 * Change the **frameRate** script.js constant with your desired value for playback frame rate.
+* Set the **interpolation** script.js constant to **true** or **false** to your choice.
 * Finally, you should replace the dummy recording from **scripts/script.js** in this project with yours. It must be placed in the value of **const recording**.
 ```javascript
 //Insert your recording here!
@@ -64,6 +65,3 @@ const recording=[{"posx":-0.007241778075695038,"posy":-0.03252420201897621,"posz
 
 ## Make your filter!
 Once the **play** project is working ok for you, you can rename the project and keep adding it things so you can make your own filter ;)
-
-## Before you publish your filter
-Keep in mind that you are not allowed to publish filters to SparkAR Hub with recognizable human faces (Although they are covered with your face, they will continue to exist in the textures) and if you try, your filter will be rejected. Before uploading your filter you must modify the animation frames blurring or covering the original face in the video or frame by frame using Photoshop/GIMP/MsPaint (No, please, don't use the last one).

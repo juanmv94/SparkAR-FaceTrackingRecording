@@ -47,6 +47,7 @@ function f() {
 		Diagnostics.log(recording);
 		Patches.inputs.setBoolean("waiting",true);
 		waiting=true;
+		frame=0;
 	}
 }
 
