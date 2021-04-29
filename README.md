@@ -20,10 +20,10 @@ For generating JPGs in your working directory use:
 Where *-r 15* means your desired framerate. If you don't want to change the framerate omit this parameter.
 Keep in mind that your video must be in vertical ratio, so edit it if isn't. You can add the *vf=crop...* filter from FFMPEG for this.
 
-Then you need to generate a webm file at 1fps (recomended) with frame counter for the recording project. Use:
->ffmpeg -r 1 -i %04d.jpg -vf "drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC" -intra camera.webm
+Then you need to generate a webm file at 1fps (recomended) with frame counter for the recording project. Use something like:
+>ffmpeg -r 1 -i %04d.jpg -vf "[in]drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC[txt];color=c=red:r=1:s=420x720:d=6[pre];[pre][txt]concat=n=2" -intra camera.webm
 
-for generating this file with translucid white frame counter on the center of the screen.
+for generating this file with translucid white frame counter on the center of the screen, and *6* seconds of padding *red* screen. You should change *420x720* with your video resolution or command won't work!
 
 
 #### 2. Open the record project
@@ -53,6 +53,7 @@ After the video is finished (no more flashes), a console log will show an array 
 You should copy this **full** array for the **Play** script.
 
 #### 3. Open the play project
+The project is made with SparkAR 110.1.0 so any version after will open it.
 * Open the project and replace the dummy Texture Secuence *00[1-34]* with yours (Delete it and import from computer all your JPGs. When imported, change the type at the right menu to "Texture Secuence". Add this new texture sequence to *animationSequence0*). **Remember to disable compression!**
 * Change the **frameRate** script.js constant with your desired value for playback frame rate.
 * Set the **interpolation** script.js constant to **true** or **false** to your choice.
