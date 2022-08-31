@@ -21,7 +21,7 @@ Where *-r 15* means your desired framerate. If you don't want to change the fram
 Keep in mind that your video must be in vertical ratio, so edit it if isn't. You can add the *vf=crop...* filter from FFMPEG for this.
 
 Then you need to generate a webm file at 1fps (recomended) with frame counter for the recording project. Use something like:
->ffmpeg -r 1 -i %04d.jpg -vf "[in]drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC[txt];color=c=red:r=1:s=420x720:d=6[pre];[pre][txt]concat=n=2" -intra camera.webm
+>ffmpeg -r 1 -i %04d.jpg -vf "[in]drawtext=text='%{frame_num}':start_number=1:x=0:y=0:fontsize=40:fontcolor=0xFFFFFFCC[txt];color=c=red:r=1:s=420x720:d=6[pre];[pre][txt]concat=n=2" -g 1 camera.webm
 
 for generating this file with translucid white frame counter on the center of the screen, and *6* seconds of padding *red* screen. You should change *420x720* with your video resolution or command won't work!
 
